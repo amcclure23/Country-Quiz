@@ -61,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a new fragment based on the used selection in the nav drawer
         switch( menuItem.getItemId() ) {
-            case R.id.menu_add:
+           case R.id.menu_add:
                 fragment = new AddJobLeadFragment();
-                break;
+              break;
             case R.id.menu_review:
-                fragment = new ReviewJobLeadsFragment();
-                break;
+               fragment = new ReviewJobLeadsFragment();
+               break;
             case R.id.menu_help:
                 fragment = new HelpFragment();
                 break;
