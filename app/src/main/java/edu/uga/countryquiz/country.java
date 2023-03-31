@@ -2,7 +2,7 @@ package edu.uga.countryquiz;
 
 public class country {
     String countryName;
-    String ContinentName;
+    String continentName;
 
     /* creates a country object*/
     public country()
@@ -13,7 +13,7 @@ public class country {
     * param string
     */
     public void setContinentName(String continentName) {
-        ContinentName = continentName;
+        this.continentName = continentName;
     }
 
     /*sets the country name
