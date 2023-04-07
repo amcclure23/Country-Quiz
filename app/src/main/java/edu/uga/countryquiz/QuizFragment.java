@@ -100,7 +100,4 @@ public class QuizFragment extends Fragment {
       //  button1 .setText(newQuiz.quest[page-1].wrongAnswer2);
     }
 
-    public static int getNumberOfVersions() {
-        return 2;
-    }
 }
