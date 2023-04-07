@@ -5,6 +5,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 
+import java.util.Arrays;
+
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         ReadCSV readCSV = new ReadCSV(this);
         readCSV.execute();
+        String[] country = dbHelper.getCountry();
+        System.out.println(Arrays.toString(country));
     }
 
     @Override
