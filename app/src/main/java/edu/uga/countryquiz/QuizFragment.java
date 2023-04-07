@@ -86,10 +86,7 @@ public class QuizFragment extends Fragment {
                                                       answer =  radioButtonPicked.getText().toString();
                                                   }
                                               });
-        //TextView highlightsView = view.findViewById( R.id.highlightsView );
-
-       // titleView.setText( "hey bitch" );
-       // highlightsView.setText( androidVersionsInfo[ versionNum ] );
+       
     }
 
     private void setText(View view) {
