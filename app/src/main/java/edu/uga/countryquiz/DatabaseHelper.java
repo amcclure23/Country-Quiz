@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.Arrays;
 import java.util.Random;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -60,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         Random rand = new Random();
-        int row = rand.nextInt(rowCount);
+        int row = rand.nextInt(rowCount) + 1;
         cursor = db.rawQuery("select * from Countries where ID='" + row + "'",null);
         if (cursor.moveToFirst()) {
             do {
