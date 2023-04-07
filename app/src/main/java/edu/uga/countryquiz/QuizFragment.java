@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 /**
@@ -20,6 +22,12 @@ public class QuizFragment extends Fragment {
     private int questionNum;
     private String title;
     private int page;
+    TextView textView;
+    private RadioGroup radioGroup;
+    private RadioButton button1;
+    private RadioButton button2;
+    private RadioButton button3;
+    private String answer;
     public QuizFragment() {
         // Required empty public constructor
     }
@@ -55,19 +63,46 @@ public class QuizFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_quiz, container, false);
         TextView label = (TextView) view.findViewById(R.id.label);
         label.setText(page + " -- " + title);
+
         return view;
     }
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState ) {
         //public void onActivityCreated(Bundle savedInstanceState) {
         super.onViewCreated( view, savedInstanceState );
+        setText(view);
+        radioGroup = view.findViewById(R.id.groupradio);
+        radioGroup.clearCheck();
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+                                              {
+                                                  @Override
 
-       // TextView titleView = view.findViewById( R.id.titleView );
+                                                  // Check which radio button has been clicked
+                                                  public void onCheckedChanged(RadioGroup group,
+                                                                               int checkedId)
+                                                  {
+                                                      // Get the selected Radio Button
+                                                      RadioButton radioButtonPicked = (RadioButton)group.findViewById(checkedId);
+                                                      answer =  radioButtonPicked.getText().toString();
+                                                  }
+                                              });
         //TextView highlightsView = view.findViewById( R.id.highlightsView );
 
        // titleView.setText( "hey bitch" );
        // highlightsView.setText( androidVersionsInfo[ versionNum ] );
     }
+
+    private void setText(View view) {
+        textView = view.findViewById( R.id.textView);
+        button1  = view.findViewById( R.id.radioButton);
+        button2  = view.findViewById( R.id.radioButton2);
+        button3  = view.findViewById( R.id.radioButton3);
+       // textView.setText(newQuiz.quest[page-1].questionWord);
+       //button1 .setText(newQuiz.quest[page-1].correctAnswer);
+       // button1 .setText(newQuiz.quest[page-1].wrongAnswer1);
+      //  button1 .setText(newQuiz.quest[page-1].wrongAnswer2);
+    }
+
     public static int getNumberOfVersions() {
         return 2;
     }
