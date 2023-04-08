@@ -26,7 +26,7 @@ import android.widget.TextView;
 public class ScoreFragment extends Fragment {
     private static final String TAG = "scoreFragment";
     private int score;
-    Activity context;
+
     public ScoreFragment() {
         // Required empty public constructor
     }
@@ -42,13 +42,7 @@ public class ScoreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences pref = context.getApplicationContext().getSharedPreferences("DATA", MODE_PRIVATE);
-        score=pref.getInt("question0", 0);
-        score+=pref.getInt("question1", 0);
-        score+=pref.getInt("question2", 0);
-        score+=pref.getInt("question3", 0);
-        score+=pref.getInt("question4", 0);
-        score+=pref.getInt("question5", 0);
+
     }
 
     @Override

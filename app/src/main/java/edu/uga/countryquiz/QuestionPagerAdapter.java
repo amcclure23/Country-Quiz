@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 public class QuestionPagerAdapter extends FragmentStateAdapter  {
     private static int NUM_ITEMS = 8;
     String[] question1, question2, question3, question4, question5, question6;
-    List<String[]> countries;
+
     public QuestionPagerAdapter(
             FragmentManager fragmentManager,
             Lifecycle lifecycle, List<String[]> countries) {
@@ -25,7 +25,6 @@ public class QuestionPagerAdapter extends FragmentStateAdapter  {
         question4 = countries.get(3);
         question5 = countries.get(4);
         question6 = countries.get(5);
-        this. countries= countries;
     }
 
     @Override
