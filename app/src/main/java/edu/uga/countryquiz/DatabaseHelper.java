@@ -87,8 +87,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }).start();
     }
 
+    public interface ResultsCallback {
+        void onResultsLoaded(List<String[]> rows);
+    }
 
-
+    public void getResultsAsync(final ResultsCallback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<String[]> results = new ArrayList<>();
+                SQLiteDatabase db = getReadableDatabase();
+                String selectQuery = "SELECT Date, Score FROM " + TABLE_RESULTS;
+                Cursor cursor = db.rawQuery(selectQuery, null);
+                while (cursor.moveToNext()) {
+                    String[] row = new String[2];
+                    row[0] = cursor.getString(0);
+                    row[1] = cursor.getString(1);
+                    results.add(row);
+                }
+                cursor.close();
+                db.close();
+                callback.onResultsLoaded(results);
+            }
+        }).start();
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
