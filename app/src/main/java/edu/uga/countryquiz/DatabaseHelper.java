@@ -55,10 +55,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void getMultipleCountriesAsync(final int numRows, final MultipleCountriesCallback callback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<String[]> countries = new ArrayList<>();
+        new Thread(() -> {
+            boolean hasDuplicates;
+            List<String[]> countries;
+            do {
+                hasDuplicates = false;
+                countries = new ArrayList<>();
                 SQLiteDatabase db = getReadableDatabase();
                 String countQuery = "SELECT COUNT(*) FROM " + TABLE_COUNTRIES;
                 Cursor cursor = db.rawQuery(countQuery, null);
@@ -82,33 +84,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
                 cursor.close();
                 db.close();
-                callback.onMultipleCountriesLoaded(countries);
-            }
+                for (int i = 0; i < countries.size() - 1; i++) {
+                    String[] row1 = countries.get(i);
+                    for (int j = i + 1; j < countries.size(); j++) {
+                        String[] row2 = countries.get(j);
+                        if (Arrays.equals(row1, row2)) {
+                            hasDuplicates = true;
+                            break;
+                        }
+                    }
+                    if (hasDuplicates) {
+                        break;
+                    }
+                }
+                if (!hasDuplicates) {
+                    callback.onMultipleCountriesLoaded(countries);
+                }
+            } while (hasDuplicates);
         }).start();
     }
+
 
     public interface ResultsCallback {
         void onResultsLoaded(List<String[]> rows);
     }
 
     public void getResultsAsync(final ResultsCallback callback) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<String[]> results = new ArrayList<>();
-                SQLiteDatabase db = getReadableDatabase();
-                String selectQuery = "SELECT Date, Score FROM " + TABLE_RESULTS;
-                Cursor cursor = db.rawQuery(selectQuery, null);
-                while (cursor.moveToNext()) {
-                    String[] row = new String[2];
-                    row[0] = cursor.getString(0);
-                    row[1] = cursor.getString(1);
-                    results.add(row);
-                }
-                cursor.close();
-                db.close();
-                callback.onResultsLoaded(results);
+        new Thread(() -> {
+            List<String[]> results = new ArrayList<>();
+            SQLiteDatabase db = getReadableDatabase();
+            String selectQuery = "SELECT Date, Score FROM " + TABLE_RESULTS;
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            while (cursor.moveToNext()) {
+                String[] row = new String[2];
+                row[0] = cursor.getString(0);
+                row[1] = cursor.getString(1);
+                results.add(row);
             }
+            cursor.close();
+            db.close();
+
+            callback.onResultsLoaded(results);
         }).start();
     }
 
