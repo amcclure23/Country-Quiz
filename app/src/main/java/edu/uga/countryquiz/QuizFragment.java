@@ -1,7 +1,10 @@
 package edu.uga.countryquiz;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
+import static android.content.Context.MODE_PRIVATE;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import java.util.Random;
@@ -13,9 +16,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link QuizFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Creates the instance of the quiz fragment
+ * displays the quiz question and allows user to answer the question
+ * via radiogroup
  */
 public class QuizFragment extends Fragment {
 
@@ -29,7 +32,11 @@ public class QuizFragment extends Fragment {
     private int answer = 0;
     private String questionWord;
     private String correctAnswer;
+    Activity context;
 
+    public interface OnDataPass {
+        public void onDataPass(String data);
+    }
     public QuizFragment() {
         // Required empty public constructor
     }
@@ -70,10 +77,10 @@ public class QuizFragment extends Fragment {
         super.onViewCreated( view, savedInstanceState );
         setText(view);
         radioGroup = view.findViewById(R.id.groupradio);
-        radioGroup.clearCheck();
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-          {
-              @Override
+        if (radioGroup!= null) {
+            radioGroup.clearCheck();
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
 
               // Check which radio button has been clicked
               public void onCheckedChanged(RadioGroup group,
@@ -88,6 +95,7 @@ public class QuizFragment extends Fragment {
           });
     }
 
+    //randomizes the answers
     private void setText(View view) {
         textView = view.findViewById( R.id.textView);
         button1  = view.findViewById( R.id.radioButton);
@@ -95,6 +103,7 @@ public class QuizFragment extends Fragment {
         button3  = view.findViewById( R.id.radioButton3);
         String question = "Which continent is " + questionWord + " located in?";
         textView.setText(question);
+        //getting non-matching continents for the answers.
         Random rand = new Random();
         String[] answers = new String[3];
         answers[0]=correctAnswer;
@@ -108,6 +117,8 @@ public class QuizFragment extends Fragment {
             int_random = rand.nextInt(7);
         }
         answers[2]=continents[int_random];
+
+        //displaying the answers randomly
         int_random = rand.nextInt(3);
         button1 .setText(answers[int_random]);
         if(int_random == 2)
@@ -127,7 +138,7 @@ public class QuizFragment extends Fragment {
         {
             int_random++;
         }
-      button3 .setText(answers[int_random]);
+        button3 .setText(answers[int_random]);
     }
 
 }
