@@ -11,10 +11,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class QuestionPagerAdapter extends FragmentStateAdapter {
-    private static int NUM_ITEMS = 7;
+public class QuestionPagerAdapter extends FragmentStateAdapter  {
+    private static int NUM_ITEMS = 8;
     String[] question1, question2, question3, question4, question5, question6;
-
+    List<String[]> countries;
     public QuestionPagerAdapter(
             FragmentManager fragmentManager,
             Lifecycle lifecycle, List<String[]> countries) {
@@ -25,6 +25,7 @@ public class QuestionPagerAdapter extends FragmentStateAdapter {
         question4 = countries.get(3);
         question5 = countries.get(4);
         question6 = countries.get(5);
+        this. countries= countries;
     }
 
     @Override
@@ -49,8 +50,9 @@ public class QuestionPagerAdapter extends FragmentStateAdapter {
             case 5:
                 return QuizFragment.newInstance(position, "quiz", question6[0], question6[1]);
             case 6:
-                return ScoreFragment.newInstance(position, "results");
-
+                return ScoreFragment.newInstance(9);
+            case 7 :
+                return HistoryFragment.newInstance();
             default:
                 return null;
         }
