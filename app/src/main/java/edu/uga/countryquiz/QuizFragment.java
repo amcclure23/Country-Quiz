@@ -65,6 +65,7 @@ public class QuizFragment extends Fragment {
         TextView label = (TextView) view.findViewById(R.id.label);
         label.setText(page + " -- " + title);
 
+        radioGroup = view.findViewById(R.id.groupradio);
         return view;
     }
     @Override
@@ -75,20 +76,20 @@ public class QuizFragment extends Fragment {
         radioGroup = view.findViewById(R.id.groupradio);
         radioGroup.clearCheck();
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-                                              {
-                                                  @Override
+          {
+              @Override
 
-                                                  // Check which radio button has been clicked
-                                                  public void onCheckedChanged(RadioGroup group,
-                                                                               int checkedId)
-                                                  {
-                                                      // Get the selected Radio Button
-                                                      RadioButton radioButtonPicked = (RadioButton)group.findViewById(checkedId);
-                                                      if(correctAnswer.equals(radioButtonPicked.getText().toString())){
-                                                          answer = 1;
-                                                      }
-                                                  }
-                                              });
+              // Check which radio button has been clicked
+              public void onCheckedChanged(RadioGroup group,
+                                           int checkedId)
+              {
+                  // Get the selected Radio Button
+                  RadioButton radioButtonPicked = (RadioButton)group.findViewById(checkedId);
+                  if(correctAnswer.equals(radioButtonPicked.getText().toString())){
+                      answer = 1;
+                  }
+              }
+          });
     }
 
     private void setText(View view) {

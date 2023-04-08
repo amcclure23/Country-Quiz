@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="splash_screen" type="id" />
+    <item name="description" type="id" />
+    <item name="startButton" type="id" />
+    <item name="groupradio" type="id" />
+    <item name="main_activity_layout" type="id" />
+</resources>
