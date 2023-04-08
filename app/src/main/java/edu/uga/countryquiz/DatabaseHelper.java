@@ -4,6 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -46,33 +50,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String[] getCountry() {
-        String name = "";
-        String continent = "";
-        SQLiteDatabase db = this.getWritableDatabase();
-        String countQuery = "SELECT COUNT(*) FROM " + TABLE_COUNTRIES;
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int rowCount = 0;
-        if (cursor.moveToFirst()) {
-            rowCount = cursor.getInt(0);
-        }
-        cursor.close();
-        Random rand = new Random();
-        int row = rand.nextInt(rowCount) + 1;
-        cursor = db.rawQuery("select * from Countries where ID='" + row + "'",null);
-        if (cursor.moveToFirst()) {
-            do {
-                name = cursor.getString(cursor.getColumnIndex("Name"));
-                continent = cursor.getString(cursor.getColumnIndex("Continent"));
-            } while (cursor.moveToNext());
-        }
-        String[] country = new String[2];
-        country[0] = name;
-        country[1] = continent;
-        cursor.close();
-        db.close();
-        return country;
+    public interface MultipleCountriesCallback {
+        void onMultipleCountriesLoaded(List<String[]> rows);
     }
+
+    public void getMultipleCountriesAsync(final int numRows, final MultipleCountriesCallback callback) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<String[]> countries = new ArrayList<>();
+                SQLiteDatabase db = getReadableDatabase();
+                String countQuery = "SELECT COUNT(*) FROM " + TABLE_COUNTRIES;
+                Cursor cursor = db.rawQuery(countQuery, null);
+                int rowCount = 0;
+                if (cursor.moveToFirst()) {
+                    rowCount = cursor.getInt(0);
+                }
+                cursor.close();
+                Random rand = new Random();
+                for (int i = 0; i < numRows; i++) {
+                    int row = rand.nextInt(rowCount) + 1;
+                    cursor = db.rawQuery("select * from Countries where ID='" + row + "'",null);
+                    if (cursor.moveToFirst()) {
+                        do {
+                            String[] country = new String[2];
+                            country[0] = cursor.getString(1);
+                            country[1] = cursor.getString(2);
+                            countries.add(country);
+                        } while (cursor.moveToNext());
+                    }
+                }
+                cursor.close();
+                db.close();
+                callback.onMultipleCountriesLoaded(countries);
+            }
+        }).start();
+    }
+
+
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

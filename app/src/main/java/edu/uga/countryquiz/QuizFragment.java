@@ -63,9 +63,8 @@ public class QuizFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quiz, container, false);
         TextView label = (TextView) view.findViewById(R.id.label);
-        label.setText(page + " -- " + title);
-
-        radioGroup = view.findViewById(R.id.groupradio);
+        String questionNum = "Question " + (page+1);
+        label.setText(questionNum);
         return view;
     }
     @Override
@@ -97,6 +96,7 @@ public class QuizFragment extends Fragment {
         button1  = view.findViewById( R.id.radioButton);
         button2  = view.findViewById( R.id.radioButton2);
         button3  = view.findViewById( R.id.radioButton3);
+        String question = "";
         textView.setText(questionWord);
         Random rand = new Random();
         String[] answers = new String[3];

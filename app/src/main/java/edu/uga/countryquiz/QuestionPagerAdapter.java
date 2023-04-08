@@ -8,54 +8,23 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 public class QuestionPagerAdapter extends FragmentStateAdapter {
-    private static int NUM_ITEMS = 8;
-    private DatabaseHelper db;
+    private static int NUM_ITEMS = 7;
     String[] question1, question2, question3, question4, question5, question6;
 
     public QuestionPagerAdapter(
             FragmentManager fragmentManager,
-            Lifecycle lifecycle, Context context ) {
+            Lifecycle lifecycle, List<String[]> countries) {
         super( fragmentManager, lifecycle );
-        db = new DatabaseHelper(context);
-        fillQuestions();
-        db.close();
-    }
-
-    private void fillQuestions() {
-        question1 = db.getCountry();
-        checkQuestion(question1);
-        question2 = db.getCountry();
-        checkQuestion(question2);
-        question3 = db.getCountry();
-        checkQuestion(question3);
-        question4 = db.getCountry();
-        checkQuestion(question4);
-        question5 = db.getCountry();
-        checkQuestion(question5);
-        question6 = db.getCountry();
-        checkQuestion(question6);
-    }
-
-    private void checkQuestion(String[] question) {
-        int count = 0;
-        if (question == question1) {
-            count++;
-        } else if (question == question2) {
-            count++;
-        } else if (question == question3) {
-            count++;
-        } else if (question == question4) {
-            count++;
-        } else if (question == question5) {
-            count++;
-        } else if (question == question6) {
-            count++;
-        }
-
-        if (count > 1) {
-            fillQuestions();
-        }
+        question1 = countries.get(0);
+        question2 = countries.get(1);
+        question3 = countries.get(2);
+        question4 = countries.get(3);
+        question5 = countries.get(4);
+        question6 = countries.get(5);
     }
 
     @Override
@@ -80,8 +49,8 @@ public class QuestionPagerAdapter extends FragmentStateAdapter {
             case 5:
                 return QuizFragment.newInstance(position, "quiz", question6[0], question6[1]);
             case 6:
-            case 7:
                 return ScoreFragment.newInstance(position, "results");
+
             default:
                 return null;
         }
