@@ -1,15 +1,11 @@
 package edu.uga.countryquiz;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class QuestionPagerAdapter extends FragmentStateAdapter  {
     private static int NUM_ITEMS = 8;

@@ -2,11 +2,13 @@ package edu.uga.countryquiz;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import java.util.List;
@@ -40,30 +42,20 @@ public class QuizView extends Fragment {
         pager.setOrientation(
                 ViewPager2.ORIENTATION_HORIZONTAL );
         pager.setAdapter( qpAdapter );
-        // Prevent swiping left on all pages
-        pager.registerOnPageChangeCallback(new SwipeLeftDisabledOnPageChangeCallback(pager));
-    }
-
-    private static class SwipeLeftDisabledOnPageChangeCallback extends ViewPager2.OnPageChangeCallback {
-
-        private final ViewPager2 viewPager;
-
-        public SwipeLeftDisabledOnPageChangeCallback(ViewPager2 viewPager) {
-            this.viewPager = viewPager;
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            // Disable swiping left on all pages except the first page
-            if (position > 0) {
-                viewPager.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        viewPager.setCurrentItem(0, false);
-                    }
-                });
+        pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            int prevPage = -1;
+            @Override
+            public void onPageSelected(int position) {
+                // The current item position is passed to this method
+                if (position == prevPage) {
+                    pager.setCurrentItem(prevPage + 1);
+                }
+                if (position > prevPage) {
+                    prevPage = position - 1;
+                }
             }
-        }
+        });
+
     }
 
     @Override

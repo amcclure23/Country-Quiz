@@ -19,9 +19,7 @@ import android.widget.TextView;
  */
 public class QuizFragment extends Fragment {
 
-    public String[] continents = new String[]{"Africa","Antarctica", "Asia", "Australia", "Europe", "North America", "South America"};
-    private int questionNum;
-    private String title;
+    public String[] continents = new String[]{"Africa","Antarctica", "Asia", "Oceania", "Europe", "North America", "South America"};
     private int page;
     TextView textView;
     private RadioGroup radioGroup;
@@ -52,7 +50,6 @@ public class QuizFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             page = getArguments().getInt("someInt", 0);
-            title = getArguments().getString("someTitle");
             questionWord = getArguments().getString("questionWord", questionWord);
             correctAnswer= getArguments().getString("correctAnswer", correctAnswer);
         }
@@ -96,8 +93,8 @@ public class QuizFragment extends Fragment {
         button1  = view.findViewById( R.id.radioButton);
         button2  = view.findViewById( R.id.radioButton2);
         button3  = view.findViewById( R.id.radioButton3);
-        String question = "";
-        textView.setText(questionWord);
+        String question = "Which continent is " + questionWord + " located in?";
+        textView.setText(question);
         Random rand = new Random();
         String[] answers = new String[3];
         answers[0]=correctAnswer;
