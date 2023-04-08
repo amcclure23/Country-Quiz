@@ -74,25 +74,25 @@ public class QuizFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState ) {
         //public void onActivityCreated(Bundle savedInstanceState) {
-        super.onViewCreated( view, savedInstanceState );
+        super.onViewCreated(view, savedInstanceState);
         setText(view);
         radioGroup = view.findViewById(R.id.groupradio);
-        if (radioGroup!= null) {
+        if (radioGroup != null) {
             radioGroup.clearCheck();
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
 
-              // Check which radio button has been clicked
-              public void onCheckedChanged(RadioGroup group,
-                                           int checkedId)
-              {
-                  // Get the selected Radio Button
-                  RadioButton radioButtonPicked = (RadioButton)group.findViewById(checkedId);
-                  if(correctAnswer.equals(radioButtonPicked.getText().toString())){
-                      answer = 1;
-                  }
-              }
-          });
+                // Check which radio button has been clicked
+                public void onCheckedChanged(RadioGroup group,
+                                             int checkedId) {
+                    // Get the selected Radio Button
+                    RadioButton radioButtonPicked = (RadioButton) group.findViewById(checkedId);
+                    if (correctAnswer.equals(radioButtonPicked.getText().toString())) {
+                        answer = 1;
+                    }
+                }
+            });
+        }
     }
 
     //randomizes the answers
