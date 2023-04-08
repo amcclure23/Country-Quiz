@@ -18,27 +18,36 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
-
+ * this is the fragment that displays the past quizzes.
+ * reads from the database
  */
 public class HistoryFragment extends Fragment {
     private DatabaseHelper db;
     private TextView tv;
     private TextView qty;
     List<String[]> results = new ArrayList<>();
+
+    /**
+     * constructor
+     */
     public HistoryFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * creates a nes instance of historyfragment
+     *
      */
-    // TODO: Rename and change types and number of parameters
     public static HistoryFragment newInstance() {
         HistoryFragment fragment = new HistoryFragment();
         return fragment;
     }
 
+    /**
+     * on create the databased gets the past results.
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +73,29 @@ public class HistoryFragment extends Fragment {
         bundle.putSerializable("countriesList", (Serializable) results);
     }
 
+    /**
+     * inflates layout
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history, container, false);
     }
+
+    /**
+     * makes the table of data from past quizzes
+     * @param view
+     */
     public void init(View view){
         TableLayout ll = view.findViewById(R.id.displaylinear);
 
@@ -89,6 +115,13 @@ public class HistoryFragment extends Fragment {
             ll.addView(row,i);
         }
     }
+
+    /**
+     * when the view is created it calls init
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState ) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
