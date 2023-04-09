@@ -9,6 +9,9 @@ import androidx.viewpager2.widget.ViewPager2;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * the fragment state adapter that controls the quiz fragments
+ */
 public class QuestionPagerAdapter extends FragmentStateAdapter  {
     private static int NUM_ITEMS = 8;
     String[] question1, question2, question3, question4, question5, question6;
@@ -21,6 +24,12 @@ public class QuestionPagerAdapter extends FragmentStateAdapter  {
 
 
 
+    /**
+     * constructor and sets up quiz questions
+     * @param fragmentManager
+     * @param lifecycle
+     * @param countries
+     */
     public QuestionPagerAdapter(
             FragmentManager fragmentManager,
             Lifecycle lifecycle, List<String[]> countries, ViewPager2 viewPager) {
@@ -43,12 +52,20 @@ public class QuestionPagerAdapter extends FragmentStateAdapter  {
         fragments.add(HistoryFragment.newInstance());
     }
 
+    /**
+     * return num-items
+     * @return int
+     */
     @Override
     public int getItemCount() {
         return NUM_ITEMS;
     }
 
-    // Returns the fragment to display for that page
+    /**
+     * Returns the fragment to display for that page
+     * @param position
+     * @return fragment
+     */
     @Override
     public Fragment createFragment(int position) {
         return fragments.get(position);

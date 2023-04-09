@@ -1,16 +1,9 @@
 package edu.uga.countryquiz;
-
-import static android.content.Context.MODE_PRIVATE;
-
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +24,18 @@ public class ScoreFragment extends Fragment {
     private static final String TAG = "scoreFragment";
     private int score;
 
+    /**
+     * constructor
+     */
     public ScoreFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * creates a new instance of score fragment
+     * @param score
+     * @return ScoreFragment
+     */
     public static ScoreFragment newInstance( int score ) {
         ScoreFragment fragment = new ScoreFragment();
         Bundle args = new Bundle();
@@ -43,18 +44,41 @@ public class ScoreFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * on create
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
+    /**
+     *  Inflates the layout for this fragment
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_score, container, false);
     }
+
+    /**
+     * sets up functionality to items in the layout.
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     @Override
     public void onViewCreated( View view, Bundle savedInstanceState ) {
         Log.d( TAG, "onActivityCreated()" );

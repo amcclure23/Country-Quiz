@@ -34,13 +34,21 @@ public class QuizFragment extends Fragment {
     private String correctAnswer;
     Activity context;
 
-    public interface OnDataPass {
-        public void onDataPass(String data);
-    }
+    /**
+     * constructor
+     */
     public QuizFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * creates new instance of the quizfragment
+     * @param page
+     * @param title
+     * @param questionWord
+     * @param correctAnswer
+     * @return
+     */
     public static QuizFragment newInstance(int page, String title, String questionWord, String correctAnswer) {
         QuizFragment fragment = new QuizFragment();
         Bundle args = new Bundle();
@@ -52,6 +60,11 @@ public class QuizFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * initializes variables from arguments
+     * @param savedInstanceState If the fragment is being re-created from
+     * a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +75,18 @@ public class QuizFragment extends Fragment {
         }
     }
 
+    /**
+     * view inflation
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,6 +96,13 @@ public class QuizFragment extends Fragment {
         label.setText(questionNum);
         return view;
     }
+
+    /**
+     * creates functionality of the objects in the layout
+     * @param view The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState ) {
         //public void onActivityCreated(Bundle savedInstanceState) {
@@ -95,7 +127,10 @@ public class QuizFragment extends Fragment {
         }
     }
 
-    //randomizes the answers
+    /**
+     * randomizes the answers and sets the textviews
+     * @param view
+     */
     private void setText(View view) {
         textView = view.findViewById( R.id.textView);
         button1  = view.findViewById( R.id.radioButton);
@@ -120,7 +155,7 @@ public class QuizFragment extends Fragment {
 
         //displaying the answers randomly
         int_random = rand.nextInt(3);
-        button1 .setText(answers[int_random]);
+        button1 .setText("1. "+answers[int_random]);
         if(int_random == 2)
         {
             int_random = 0;
@@ -129,7 +164,7 @@ public class QuizFragment extends Fragment {
         {
             int_random++;
         }
-        button2 .setText(answers[int_random]);
+        button2 .setText("2. "+answers[int_random]);
         if(int_random == 2)
         {
             int_random = 0;
@@ -138,7 +173,7 @@ public class QuizFragment extends Fragment {
         {
             int_random++;
         }
-        button3 .setText(answers[int_random]);
+        button3 .setText("3. "+answers[int_random]);
     }
 
     public boolean isCorrect() {
