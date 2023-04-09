@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -34,10 +35,17 @@ public class MainActivity extends AppCompatActivity {
         ReadCSV readCSV = new ReadCSV(this);
         readCSV.execute();
         Button startButton = (Button) findViewById(R.id.startButton);
+        Button historyButton = (Button) findViewById(R.id.historyButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startQuiz();
+            }
+        });
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHistory();
             }
         });
     }
@@ -67,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putSerializable("countriesList", (Serializable) countries);
         fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.splash_screen, fragment);
+        fragmentTransaction.commit();
+    }
+
+    private void viewHistory() {
+        Fragment fragment = new HistoryFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.splash_screen, fragment);

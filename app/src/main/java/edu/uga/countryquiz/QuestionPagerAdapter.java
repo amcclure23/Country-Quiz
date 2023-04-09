@@ -75,17 +75,22 @@ public class QuestionPagerAdapter extends FragmentStateAdapter  {
         return (QuizFragment) fragmentManager.findFragmentByTag("f" + position);
     }
 
-    public void setScoreFragment(int score) {
-        finalScore = ScoreFragment.newInstance(score);
+    public void setScore(int newScore) {
+        score = newScore;
+        finalScore.updateScore(score);
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public void replaceFragment(Fragment fragment, int position) {
+    public void replaceFragment(int position, Fragment fragment) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.viewpager, fragment, "f" + position)
+                .commit();
         fragments.set(position, fragment);
+        notifyDataSetChanged();
+    }
 
+    public void addFragment(Fragment fragment) {
+        fragments.add(fragment);
+        notifyDataSetChanged();
     }
 
 }

@@ -2,19 +2,11 @@ package edu.uga.countryquiz;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
-import androidx.annotation.Px;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-
-import com.google.android.material.color.utilities.Score;
-
 import java.util.List;
 
 /**
@@ -64,7 +56,7 @@ public class QuizView extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         countries = (List<String[]>) getArguments().getSerializable("countriesList");
-        pager = getActivity().findViewById( R.id.viewpager);
+        pager = view.findViewById(R.id.viewpager);
         QuestionPagerAdapter qpAdapter = new
                 QuestionPagerAdapter(
                 getChildFragmentManager(), getLifecycle(), countries,  pager);
@@ -79,17 +71,20 @@ public class QuizView extends Fragment {
                 if (position == prevPage) {
                     pager.setCurrentItem(prevPage + 1);
                 }
-                if (position > prevPage) {
+                if (position == 6) {
+                    qpAdapter.setScore(score);
+                    pager.setUserInputEnabled(false);
+                } else if (position > prevPage && position < 7) {
                     prevPage = position - 1;
                     QuizFragment prevFragment = qpAdapter.getQuizFragment(prevPage);
                     if (prevFragment != null) {
                         boolean isCorrect = prevFragment.isCorrect();
                         if (isCorrect) {
-                            score++;
-                            System.out.println(score);
+                            score = score + 1;
                         }
                     }
                 }
+
             }
         });
 

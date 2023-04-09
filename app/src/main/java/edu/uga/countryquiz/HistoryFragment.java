@@ -1,16 +1,22 @@
 package edu.uga.countryquiz;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -89,7 +95,10 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        LinearLayout myLinearLayout = getActivity().findViewById(R.id.splash_content);
+        myLinearLayout.setVisibility(View.GONE);
+        return view;
     }
 
     /**
@@ -97,22 +106,41 @@ public class HistoryFragment extends Fragment {
      * @param view
      */
     public void init(View view){
-        TableLayout ll = view.findViewById(R.id.displaylinear);
+        TableLayout ll = view.findViewById(R.id.table_layout);
 
+        // Add data rows
+        for (int i = results.size() - 1; i >= 0; i--) {
+            String[] row = results.get(i);
+            TableRow dataRow = new TableRow(getContext());
+            TextView date = new TextView(getContext());
+            date.setText(row[0]); // Assumes the date is in the first column of the row
+            date.setGravity(Gravity.CENTER);// Assumes the date is in the first column of the row
+            date.setPadding(16, 16, 16, 16); // add some padding
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                date.setTextAppearance(android.R.style.TextAppearance_Medium); // set the text appearance
+            }
+            TextView score = new TextView(getContext());
+            score.setText(row[1]); // Assumes the date is in the first column of the row
+            score.setGravity(Gravity.CENTER);// Assumes the date is in the first column of the row
+            score.setPadding(16, 16, 16, 16); // add some padding
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                score.setTextAppearance(android.R.style.TextAppearance_Medium);
+            }
+            dataRow.addView(date);
+            dataRow.addView(score);
+            ll.addView(dataRow);
+        }
 
-        for (int i = 0; i <results.size(); i++) {
-
-            TableRow row= new TableRow(getContext());
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-            row.setLayoutParams(lp);
-            String[] quiz =results.get(i);
-            tv = new TextView(getContext());
-            tv.setText("date: "+quiz[0]);
-            qty = new TextView(getContext());
-            qty.setText(" score: "+quiz[1]);
-            row.addView(qty);
-            row.addView(tv);
-            ll.addView(row,i);
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // return to the main activity
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
     }
 

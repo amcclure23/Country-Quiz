@@ -119,7 +119,7 @@ public class QuizFragment extends Fragment {
                                              int checkedId) {
                     // Get the selected Radio Button
                     RadioButton radioButtonPicked = (RadioButton) group.findViewById(checkedId);
-                    if (correctAnswer.equals(radioButtonPicked.getText().toString())) {
+                    if (correctAnswer.equals(radioButtonPicked.getText().toString().substring(3))) {
                         answer = 1;
                     }
                 }
