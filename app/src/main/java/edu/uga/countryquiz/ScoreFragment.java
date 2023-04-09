@@ -17,6 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * this it the score fragment
@@ -54,11 +58,20 @@ public class ScoreFragment extends Fragment {
     @Override
     public void onViewCreated( View view, Bundle savedInstanceState ) {
         Log.d( TAG, "onActivityCreated()" );
-
         super.onViewCreated(view,savedInstanceState);
+        if (getArguments() != null) {
+            score = getArguments().getInt("score");
+            System.out.println(score);
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault());
+        Date today = new Date();
+        String dateString = dateFormat.format(today);
         view.setBackgroundColor(Color.argb(255, 255, 253, 208));
         TextView textView = getView().findViewById( R.id.textView );
-        textView.setText("score: "+ score+"/6");
+        String result = "Score: " + score + "/6";
+        textView.setText(result);
+        TextView date = getView().findViewById( R.id.label );
+        date.setText(dateString);
         Button restartButton = getView().findViewById( R.id.button );
         restartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +87,6 @@ public class ScoreFragment extends Fragment {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.splash_screen, fragment);
             fragmentTransaction.commit();
-        }
+    }
 
 }

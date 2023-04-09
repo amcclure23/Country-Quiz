@@ -7,9 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Px;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.color.utilities.Score;
 
 import java.util.List;
 
@@ -17,6 +21,7 @@ public class QuizView extends Fragment {
 
     private ViewPager2 pager;
     private List<String[]> countries;
+    private int score = 0;
 
     public QuizView() {
         // Required empty public constructor
@@ -38,7 +43,7 @@ public class QuizView extends Fragment {
         pager = getActivity().findViewById( R.id.viewpager);
         QuestionPagerAdapter qpAdapter = new
                 QuestionPagerAdapter(
-                getChildFragmentManager(), getLifecycle(), countries );
+                getChildFragmentManager(), getLifecycle(), countries,  pager);
         pager.setOrientation(
                 ViewPager2.ORIENTATION_HORIZONTAL );
         pager.setAdapter( qpAdapter );
@@ -52,6 +57,14 @@ public class QuizView extends Fragment {
                 }
                 if (position > prevPage) {
                     prevPage = position - 1;
+                    QuizFragment prevFragment = qpAdapter.getQuizFragment(prevPage);
+                    if (prevFragment != null) {
+                        boolean isCorrect = prevFragment.isCorrect();
+                        if (isCorrect) {
+                            score++;
+                            System.out.println(score);
+                        }
+                    }
                 }
             }
         });

@@ -141,4 +141,12 @@ public class QuizFragment extends Fragment {
         button3 .setText(answers[int_random]);
     }
 
+    public boolean isCorrect() {
+        if (answer == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
